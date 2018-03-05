@@ -6,24 +6,25 @@ public class PlayerMovement : MonoBehaviour
 {
     //Unity Editor Display
     [SerializeField]
-    private int p_Number = 1;
+    private int number = 1;
     [SerializeField]
-    private float p_Speed = 10f;
+    private float speed = 10f;
     [SerializeField]
-    private float p_TurnSpeed = 180f;
+    private float turnSpeed = 180f;
     [SerializeField]
-    private float p_JumpForce = 10f;
+    private float jumpForce = 10f;
     [SerializeField]
-    private float p_JumpFall = -5f;
+    private float JumpFall = -5f;
+   
 
     // No Unity Editor Display
     private Rigidbody p_Rigidbody;
-    private string p_MoveAxisN;
-    private string p_TurnAxisN;
-    private string p_JumpAxisN;
-    private float p_MoveValue;
-    private float p_TurnValue;
-    private float p_JumpValue;
+    private string moveAxisN;
+    private string turnAxisN;
+    private string jumpAxisN;
+    private float moveValue;
+    private float turnValue;
+    private float jumpValue;
     private bool onGround;
 
     private void Awake()
@@ -33,15 +34,15 @@ public class PlayerMovement : MonoBehaviour
 	private void Start ()
     {
         onGround = true;
-        p_MoveAxisN = "Vertical" + p_Number;
-        p_TurnAxisN = "Horizontal" + p_Number;
-        p_JumpAxisN = "Jump" + p_Number;
+        moveAxisN = "Vertical" + number;
+        turnAxisN = "Horizontal" + number;
+        jumpAxisN = "Jump" + number;
 	}
 	private void Update ()
     {
-        p_MoveValue = Input.GetAxis(p_MoveAxisN);
-        p_TurnValue = Input.GetAxis(p_TurnAxisN);
-        p_JumpValue = Input.GetAxis(p_JumpAxisN);
+        moveValue = Input.GetAxis(moveAxisN);
+        turnValue = Input.GetAxis(turnAxisN);
+        jumpValue = Input.GetAxis(jumpAxisN);
 	}
     private void FixedUpdate()
     {
@@ -52,13 +53,13 @@ public class PlayerMovement : MonoBehaviour
     private void Move()
     {
         Vector3 movement = 
-            transform.forward * p_MoveValue * p_Speed * Time.deltaTime;
+            transform.forward * moveValue * speed * Time.deltaTime;
 
         p_Rigidbody.MovePosition(p_Rigidbody.position + movement);
     }
     private void Turn()
     {
-        float turn = p_TurnValue * p_TurnSpeed * Time.deltaTime;
+        float turn = turnValue * turnSpeed * Time.deltaTime;
         Quaternion turnRotation = Quaternion.Euler(0f, turn, 0f);
 
         p_Rigidbody.MoveRotation(p_Rigidbody.rotation * turnRotation);
@@ -66,14 +67,16 @@ public class PlayerMovement : MonoBehaviour
     private void Jump()
     {
         Vector3 jumpdown =
-            transform.up * p_JumpFall * Time.captureFramerate;
+            transform.up * JumpFall * Time.captureFramerate;
 
         if (onGround)
         {
-            if(p_JumpValue > 0.5f)
+            if(jumpValue > 0.5f)
             {
-                p_Rigidbody.velocity = new Vector3(0f, p_JumpForce, 0f); 
+                p_Rigidbody.velocity = new Vector3(0f, jumpForce, 0f); 
                 onGround = false;
+               
+                
             }
         }
         if (onGround == false)
