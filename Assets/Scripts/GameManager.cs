@@ -19,8 +19,10 @@ public class GameManager : MonoBehaviour
     private int roundNumber;                  
     private WaitForSeconds startWait;         
     private WaitForSeconds endWait;          
-    private GoalPost roundWinner;        
+           
     private GoalPost gameWinner;
+    private int teamRd;
+    private int teamBlue;
     [HideInInspector]
     public GameObject Ball
     {
@@ -32,13 +34,13 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        goalPost = GameObject.FindGameObjectWithTag("Goals").GetComponent<GoalPost>();
         startWait = new WaitForSeconds(startDelay);
         endWait = new WaitForSeconds(endDelay);
 
         SpawnAllTanks();
         SetCameraTargets();
-
-        //StartCoroutine(GameLoop());
+        StartCoroutine(GameLoop());
     }
     private void SpawnAllTanks()
     {
@@ -83,6 +85,7 @@ public class GameManager : MonoBehaviour
     private IEnumerator RoundStarting()
     {
         ResetAllPlayer();
+        goalPost.Reset();
         DisablePlayerControl();
 
         cameraControl.SetStartPositionAndSize();
@@ -103,15 +106,8 @@ public class GameManager : MonoBehaviour
     private IEnumerator RoundEnding()
     {
         DisablePlayerControl();
-        // Clear the winner from the previous round.
-        roundWinner = null;
-        // See if there is a winner now the round is over.
-        roundWinner = GetRoundWinner();
-        // If there is a winner, increment their score.
-        if (roundWinner != null)
-            roundWinner.wins++;
-        // Now the winner's score has been incremented, see if someone has won the game.
-        gameWinner = GetGameWinner();
+        GetRoundWinner();
+        GetGameWinner();
         // Get a message based on the scores and whether or not there is a game winner and display it.
         string message = EndMessage();
         messageText.text = message;
@@ -126,33 +122,40 @@ public class GameManager : MonoBehaviour
         {
             goalPost.ScoreRed++;
             Destroy(ball);
-            return goalPost.ScoreRed >= 1;
+            goalPost.ScoreRed = teamRd;
+            return teamRd >= 1;
         }
         else if(goalPost.IsGoal ==true && goalPost.goalNumber == 2)
         {
             goalPost.ScoreBlue++;
             Destroy(ball);
-            return goalPost.ScoreBlue >= 1;
+            goalPost.ScoreBlue = teamBlue;
+            return teamBlue >= 1;
         }
         return false;
     }
-    private GoalPost GetRoundWinner()
+    private void GetRoundWinner()
+    {
+        if (teamRd == 1)
+        {
+            goalPost.winsRed++;
+        }
+        else if (teamBlue == 1)
+        {
+            goalPost.wins++;
+        }     
+    }
+    private void GetGameWinner()
     {
         // Go through all the tanks...
-        if (goalPost.ScoreRed == 1)
-        {
-            
-        }
-        else if (goalPost.ScoreBlue == 1)
+        if (goalPost.wins == numRoundsToWin)
         {
 
         }
-        // If none of the tanks are active it is a draw so return null.
-        return null;
-    }
-    private GoalPost GetGameWinner()
-    {
-        // Go through all the tanks...
+        else if (goalPost.winsRed == numRoundsToWin)
+        {
+
+        }
         for (int i = 0; i < players.Length; i++)
         {
             // ... and if one of them has enough rounds to win the game, return it.
@@ -160,7 +163,7 @@ public class GameManager : MonoBehaviour
              //   return players[i];
         }
         // If no tanks have enough rounds to win, return null.
-        return null;
+
     }
     private string EndMessage()
     {

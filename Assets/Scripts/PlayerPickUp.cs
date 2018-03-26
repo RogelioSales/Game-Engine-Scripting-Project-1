@@ -46,7 +46,7 @@ public class PlayerPickUp : MonoBehaviour
         }
         else if (isCarrying == true  )
         {
-            Debug.Log("being cariesd");
+            Debug.Log("being carried");
             if (Input.GetButtonDown(pickable))
             {
                 drop();

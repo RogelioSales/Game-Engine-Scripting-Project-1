@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0.43677664, g: 0.48439968, b: 0.5646534, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -453,13 +453,13 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 472143089}
-  m_LocalRotation: {x: 0.40821788, y: -0.23456968, z: 0.10938163, w: 0.8754261}
+  m_LocalRotation: {x: 0.6620007, y: -0.18847473, z: 0.17738253, w: 0.70339733}
   m_LocalPosition: {x: 0, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+  m_LocalEulerAnglesHint: {x: 86.527, y: -30.000002, z: 0}
 --- !u!1 &596797213
 GameObject:
   m_ObjectHideFlags: 0
@@ -501,13 +501,11 @@ MonoBehaviour:
     playerNumber: 0
     coloredPlayerText: 
     playerInstance: {fileID: 0}
-    wins: 0
   - m_PlayerColor: {r: 0, g: 0.21379304, b: 1, a: 1}
     m_SpawnPoint: {fileID: 1250809278}
     playerNumber: 0
     coloredPlayerText: 
     playerInstance: {fileID: 0}
-    wins: 0
   ballSpawnPoint: {fileID: 1936648485}
 --- !u!4 &596797215
 Transform:

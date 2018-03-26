@@ -30,6 +30,8 @@ public class GoalPost : MonoBehaviour
     private GameManager game;
     [HideInInspector]
     public int wins;
+    [HideInInspector]
+    public int winsRed;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -37,14 +39,15 @@ public class GoalPost : MonoBehaviour
         {
             Debug.Log("GOAALLL");
             isGoal = true;
-            scoreRed++;
+            
         }
         else if(other.gameObject.tag == "Pickable" && goalNumber == 2)
         {
             Debug.Log("Goaal");
             isGoal = true;
-            scoreBlue++;
+           
         }
+
     }
 	// Use this for initialization
 	void Start ()
