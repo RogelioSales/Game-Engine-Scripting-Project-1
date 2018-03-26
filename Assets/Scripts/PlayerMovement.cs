@@ -5,19 +5,18 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     //Unity Editor Display
+    public int playernumber = 1;
     [SerializeField]
-    private int p_Number = 1;
+    private float speed = 10f;
     [SerializeField]
-    private float p_Speed = 10f;
+    private float turnSpeed = 180f;
     [SerializeField]
-    private float p_TurnSpeed = 180f;
+    private float jumpForce = 10f;
     [SerializeField]
-    private float p_JumpForce = 10f;
-    [SerializeField]
-    private float p_JumpFall = -5f;
+    private float jumpFall = -5f;
 
     // No Unity Editor Display
-    private Rigidbody p_Rigidbody;
+    private Rigidbody playerRigidbody;
     private string p_MoveAxisN;
     private string p_TurnAxisN;
     private string p_JumpAxisN;
@@ -28,14 +27,14 @@ public class PlayerMovement : MonoBehaviour
 
     private void Awake()
     {
-        p_Rigidbody = GetComponent<Rigidbody>();
+        playerRigidbody = GetComponent<Rigidbody>();
     }
 	private void Start ()
     {
         onGround = true;
-        p_MoveAxisN = "Vertical" + p_Number;
-        p_TurnAxisN = "Horizontal" + p_Number;
-        p_JumpAxisN = "Jump" + p_Number;
+        p_MoveAxisN = "Vertical" + playernumber;
+        p_TurnAxisN = "Horizontal" + playernumber;
+        p_JumpAxisN = "Jump" + playernumber;
 	}
 	private void Update ()
     {
@@ -52,33 +51,33 @@ public class PlayerMovement : MonoBehaviour
     private void Move()
     {
         Vector3 movement = 
-            transform.forward * p_MoveValue * p_Speed * Time.deltaTime;
+            transform.forward * p_MoveValue * speed * Time.deltaTime;
 
-        p_Rigidbody.MovePosition(p_Rigidbody.position + movement);
+        playerRigidbody.MovePosition(playerRigidbody.position + movement);
     }
     private void Turn()
     {
-        float turn = p_TurnValue * p_TurnSpeed * Time.deltaTime;
+        float turn = p_TurnValue * turnSpeed * Time.deltaTime;
         Quaternion turnRotation = Quaternion.Euler(0f, turn, 0f);
 
-        p_Rigidbody.MoveRotation(p_Rigidbody.rotation * turnRotation);
+        playerRigidbody.MoveRotation(playerRigidbody.rotation * turnRotation);
     }
     private void Jump()
     {
         Vector3 jumpdown =
-            transform.up * p_JumpFall * Time.captureFramerate;
+            transform.up * jumpFall * Time.captureFramerate;
 
         if (onGround)
         {
             if(p_JumpValue > 0.5f)
             {
-                p_Rigidbody.velocity = new Vector3(0f, p_JumpForce, 0f); 
+                playerRigidbody.velocity = new Vector3(0f, jumpForce, 0f); 
                 onGround = false;
             }
         }
         if (onGround == false)
         {
-            p_Rigidbody.AddForce(jumpdown, ForceMode.Force);
+            playerRigidbody.AddForce(jumpdown, ForceMode.Force);
            
         }
     }

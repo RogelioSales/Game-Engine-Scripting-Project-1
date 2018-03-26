@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Ground
   - Pickable
+  - Goals
+  - Game
   layers:
   - Default
   - TransparentFX

@@ -249,7 +249,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 683390376}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1421974166}
+        m_MethodName: Quit
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &683390376
@@ -394,7 +405,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 983267371}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1421974166}
+        m_MethodName: LoadByIndex
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &983267371
@@ -609,6 +631,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1421974165}
   - component: {fileID: 1421974167}
+  - component: {fileID: 1421974166}
   m_Layer: 5
   m_Name: ButtonPanel
   m_TagString: Untagged
@@ -637,6 +660,17 @@ RectTransform:
   m_AnchoredPosition: {x: 279, y: 53}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1421974166
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1421974164}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82963c77c81e2a34080c0b72c0b4ad3e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!222 &1421974167
 CanvasRenderer:
   m_ObjectHideFlags: 0

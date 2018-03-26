@@ -4,33 +4,50 @@ using UnityEngine;
 
 public class PlayerPickUp : MonoBehaviour
 {
-    [SerializeField]
-    private GameObject item;
+    public int playerNumber = 1;
+    public GameObject item;
     [SerializeField]
     private GameObject tempParent;
     [SerializeField]
     private Transform hand;
+    private GameObject ball;
 
+    [HideInInspector]
+    public bool IsCarrying
+    {
+        get { return isCarrying; }
+        set { isCarrying = value; }
+    }
+    bool isCarrying;
 
-    private bool isCarrying;
-  
+    private PlayerShoot playerShoot;
+    private GameManager game;
+    private string pickable;
+    
+
     private void Start()
     {
-        item.GetComponent<Rigidbody>().useGravity = true;
+        game = GameObject.FindGameObjectWithTag("Game").GetComponent<GameManager>();
+        game.Ball.GetComponent<Rigidbody>().useGravity = true;
+        pickable = "PickUp" + playerNumber;
+        
     }
-    private void Update()
+    private void OnTriggerStay(Collider other)
     {
-        if (isCarrying == false)
+       
+        if (isCarrying == false && this.gameObject.tag == "Player")
         {
-            if (Input.GetKeyDown(KeyCode.K))
+            Debug.Log("Player Entered");
+            if (Input.GetButtonDown(pickable))
             {
                 pickup();
                 isCarrying = true;
             }
         }
-        else if (isCarrying == true)
+        else if (isCarrying == true  )
         {
-            if (Input.GetKeyDown(KeyCode.K))
+            Debug.Log("being cariesd");
+            if (Input.GetButtonDown(pickable))
             {
                 drop();
                 isCarrying = false;
@@ -39,18 +56,18 @@ public class PlayerPickUp : MonoBehaviour
     }
     private void pickup()
     {
-        item.GetComponent<Rigidbody>().useGravity = false;
-        item.GetComponent<Rigidbody>().isKinematic = true;
-        item.transform.position = hand.transform.position;
-        item.transform.rotation = hand.transform.rotation;
-        item.transform.parent = tempParent.transform;
+        game.Ball.GetComponent<Rigidbody>().useGravity = false;
+        game.Ball.GetComponent<Rigidbody>().isKinematic = true;
+        game.Ball.transform.position = hand.transform.position;
+        game.Ball.transform.rotation = hand.transform.rotation;
+        game.Ball.transform.parent = tempParent.transform;
     }
     private void drop()
     {
-        item.GetComponent<Rigidbody>().useGravity = true;
-        item.GetComponent<Rigidbody>().isKinematic = false;
-        item.transform.parent = null;
-        item.transform.position = hand.transform.position;
+        game.Ball.GetComponent<Rigidbody>().useGravity = true;
+        game.Ball.GetComponent<Rigidbody>().isKinematic = false;
+        game.Ball.transform.parent = null;
+        game.Ball.transform.position = hand.transform.position;
     }
 
 }
