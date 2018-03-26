@@ -141,7 +141,7 @@ public class GameManager : MonoBehaviour
         // Go through all the tanks...
         if (goalPost.ScoreRed == 1)
         {
-
+            
         }
         else if (goalPost.ScoreBlue == 1)
         {
@@ -156,8 +156,8 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < players.Length; i++)
         {
             // ... and if one of them has enough rounds to win the game, return it.
-            if (players[i].wins == numRoundsToWin)
-                return players[i];
+           // if (players[i].wins == numRoundsToWin)
+             //   return players[i];
         }
         // If no tanks have enough rounds to win, return null.
         return null;
@@ -168,17 +168,17 @@ public class GameManager : MonoBehaviour
         string message = "DRAW!";
         // If there is a winner then change the message to reflect that.
         if (roundWinner != null)
-            message = roundWinner.coloredPlayerText + " WINS THE ROUND!";
+         //   message = roundWinner.coloredPlayerText + " WINS THE ROUND!";
         // Add some line breaks after the initial message.
         message += "\n\n\n\n";
         // Go through all the tanks and add each of their scores to the message.
-        for (int i = 0; i < players.Length; i++)
-        {
-            message += players[i].coloredPlayerText + ": " + players[i].wins + " WINS\n";
-        }
+      //  for (int i = 0; i < players.Length; i++)
+       // {
+       //     message += players[i].coloredPlayerText + ": " + players[i].wins + " WINS\n";
+       // }
         // If there is a game winner, change the entire message to reflect that.
         if (gameWinner != null)
-            message = gameWinner.coloredPlayerText + " WINS THE GAME!";
+            message = /*gameWinner.coloredPlayerText +*/ " WINS THE GAME!";
 
         return message;
     }
