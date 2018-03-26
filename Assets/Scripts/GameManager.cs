@@ -84,6 +84,7 @@ public class GameManager : MonoBehaviour
     }
     private IEnumerator RoundStarting()
     {
+        ball = Instantiate(ballPrefab, ballSpawnPoint.position, ballSpawnPoint.rotation) as GameObject;
         ResetAllPlayer();
         goalPost.Reset();
         DisablePlayerControl();
@@ -107,11 +108,7 @@ public class GameManager : MonoBehaviour
     {
         DisablePlayerControl();
         GetRoundWinner();
-        GetGameWinner();
-        // Get a message based on the scores and whether or not there is a game winner and display it.
-        string message = EndMessage();
-        messageText.text = message;
-        // Wait for the specified length of time until yielding control back to the game loop.
+        GetGameWinner();       
         yield return endWait;
     }
     private bool GoalShot()
@@ -136,6 +133,8 @@ public class GameManager : MonoBehaviour
     }
     private void GetRoundWinner()
     {
+        Debug.Log(teamRd);
+        Debug.Log(teamBlue);
         if (teamRd == 1)
         {
             goalPost.winsRed++;
@@ -147,44 +146,18 @@ public class GameManager : MonoBehaviour
     }
     private void GetGameWinner()
     {
-        // Go through all the tanks...
         if (goalPost.wins == numRoundsToWin)
         {
-
+           
         }
         else if (goalPost.winsRed == numRoundsToWin)
         {
-
+           
         }
-        for (int i = 0; i < players.Length; i++)
-        {
-            // ... and if one of them has enough rounds to win the game, return it.
-           // if (players[i].wins == numRoundsToWin)
-             //   return players[i];
-        }
-        // If no tanks have enough rounds to win, return null.
-
     }
-    private string EndMessage()
-    {
-        // By default when a round ends there are no winners so the default end message is a draw.
-        string message = "DRAW!";
-        // If there is a winner then change the message to reflect that.
-        if (roundWinner != null)
-         //   message = roundWinner.coloredPlayerText + " WINS THE ROUND!";
-        // Add some line breaks after the initial message.
-        message += "\n\n\n\n";
-        // Go through all the tanks and add each of their scores to the message.
-      //  for (int i = 0; i < players.Length; i++)
-       // {
-       //     message += players[i].coloredPlayerText + ": " + players[i].wins + " WINS\n";
-       // }
-        // If there is a game winner, change the entire message to reflect that.
-        if (gameWinner != null)
-            message = /*gameWinner.coloredPlayerText +*/ " WINS THE GAME!";
-
-        return message;
-    }
+    //private string EndMessage()
+    //{
+    //}
     private void ResetAllPlayer()
     {
         for (int i = 0; i < players.Length; i++)

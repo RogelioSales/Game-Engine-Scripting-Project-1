@@ -292,7 +292,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playernumber: 1
-  speed: 10
+  speed: 20
   turnSpeed: 180
   jumpForce: 10
   jumpFall: -5
