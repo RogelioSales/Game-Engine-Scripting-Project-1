@@ -5,12 +5,12 @@ using UnityEngine;
 public class PlayerPickUp : MonoBehaviour
 {
     public int playerNumber = 1;
-    public GameObject item;
+   // public GameObject item;
     [SerializeField]
     private GameObject tempParent;
     [SerializeField]
     private Transform hand;
-    private GameObject ball;
+    //private GameObject ball;
 
     [HideInInspector]
     public bool IsCarrying

@@ -6,23 +6,49 @@ using System;
 [Serializable]
 public class GoalManager 
 {
-    public Color m_PlayerColor;
+    public Color goalColor;
+    public Transform goalSpawnPoint;
+    [HideInInspector]
+    public int goalNumber;
+    [HideInInspector]
+    public string coloredgoalText;
+    [HideInInspector]
+    public GameObject goalInstance;
+    [HideInInspector]
+    public int wins;
 
-    [HideInInspector]
-    public int playerNumber;
-    [HideInInspector]
-    public string coloredPlayerText;
-    [HideInInspector]
-    public GameObject playerInstance;
+    private GoalPost goalPost;
+    private GameObject canvasGameobject;
 
-    // Use this for initialization
-    void Start ()
+    public void Setup()
     {
-        coloredPlayerText = "<color=#" + ColorUtility.ToHtmlStringRGB(m_PlayerColor) + ">PLAYER " + playerNumber + "</color>";
+        goalPost = goalInstance.GetComponent<GoalPost>();
+        canvasGameobject = goalInstance.GetComponentInChildren<Canvas>().gameObject;
+        goalPost.goalNumber = goalNumber;
+        coloredgoalText = "<color=#" + ColorUtility.ToHtmlStringRGB(goalColor) + "> TEAM " + goalNumber + "</color>";
+
+        MeshRenderer[] renderers = goalInstance.GetComponentsInChildren<MeshRenderer>();
+
+        for(int i = 0; i < renderers.Length; i++)
+        {
+            renderers[i].material.color = goalColor;
+        }
     }
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    public void DisableControl()
+    {
+        goalPost.enabled = false;
+        canvasGameobject.SetActive(false);
+    }
+    public void EnableControl()
+    {
+        goalPost.enabled = true;
+        canvasGameobject.SetActive(true);
+    }
+    public void Reset()
+    {
+        goalInstance.transform.position = goalSpawnPoint.position;
+        goalInstance.transform.rotation = goalSpawnPoint.rotation;
+        goalInstance.SetActive(false);
+        goalInstance.SetActive(true);
+    }
 }

@@ -12,17 +12,17 @@ public class GameManager : MonoBehaviour
     public CameraControl cameraControl;      
     public Text messageText;                
     public GameObject playerPrefab;
-    public GameObject ballPrefab;           
+    public GameObject ballPrefab;
+    public GameObject goalPrefab;
     public PlayerManager[] players;
+    public GoalManager[] goalsPost;
     public Transform ballSpawnPoint;
 
     private int roundNumber;                  
     private WaitForSeconds startWait;         
-    private WaitForSeconds endWait;          
-           
-    private GoalPost gameWinner;
-    private int teamRd;
-    private int teamBlue;
+    private WaitForSeconds endWait;
+    private GoalManager roundWinner;       
+    private GoalManager gameWinner;
     [HideInInspector]
     public GameObject Ball
     {
@@ -30,22 +30,27 @@ public class GameManager : MonoBehaviour
         set { ball = value; }
     }
     private GameObject ball;
-    private GoalPost goalPost;
 
     private void Start()
     {
-        goalPost = GameObject.FindGameObjectWithTag("Goals").GetComponent<GoalPost>();
         startWait = new WaitForSeconds(startDelay);
         endWait = new WaitForSeconds(endDelay);
 
-        SpawnAllTanks();
+        SpawnAllPrefabs();
         SetCameraTargets();
         StartCoroutine(GameLoop());
     }
-    private void SpawnAllTanks()
+    private void SpawnAllPrefabs()
     {
-       ball = Instantiate(ballPrefab, ballSpawnPoint.position, ballSpawnPoint.rotation) as GameObject;
+        ball = Instantiate(ballPrefab, ballSpawnPoint.position, ballSpawnPoint.rotation) as GameObject;
 
+        for(int g = 0; g < goalsPost.Length; g++)
+        {
+            goalsPost[g].goalInstance =
+                Instantiate(goalPrefab, goalsPost[g].goalSpawnPoint.position, goalsPost[g].goalSpawnPoint.rotation) as GameObject;
+            goalsPost[g].goalNumber = g + 1;
+            goalsPost[g].Setup();
+        }
         for (int i = 0; i < players.Length; i++)
         {
             // ... create them, set their player number and references needed for control.
@@ -84,9 +89,8 @@ public class GameManager : MonoBehaviour
     }
     private IEnumerator RoundStarting()
     {
-        ball = Instantiate(ballPrefab, ballSpawnPoint.position, ballSpawnPoint.rotation) as GameObject;
+        
         ResetAllPlayer();
-        goalPost.Reset();
         DisablePlayerControl();
 
         cameraControl.SetStartPositionAndSize();
@@ -107,76 +111,102 @@ public class GameManager : MonoBehaviour
     private IEnumerator RoundEnding()
     {
         DisablePlayerControl();
-        GetRoundWinner();
-        GetGameWinner();       
+        roundWinner = null;
+        roundWinner = GetRoundWinner();
+        if (roundWinner != null)
+            roundWinner.wins++;
+        gameWinner = GetGameWinner();
+        string message = EndMessage();
+        messageText.text = message;
+
         yield return endWait;
     }
     private bool GoalShot()
     {
-        goalPost.ScoreRed = 0;
-        goalPost.ScoreBlue = 0;
-        if (goalPost.IsGoal == true && goalPost.goalNumber == 1)
+        int numgoals = 0;
+
+        for (int i = 0; i <goalsPost.Length;i++)
         {
-            goalPost.ScoreRed++;
-            Destroy(ball);
-            goalPost.ScoreRed = teamRd;
-            return teamRd >= 1;
+            if (goalsPost[i].goalInstance.activeSelf)
+                numgoals++;
         }
-        else if(goalPost.IsGoal ==true && goalPost.goalNumber == 2)
-        {
-            goalPost.ScoreBlue++;
-            Destroy(ball);
-            goalPost.ScoreBlue = teamBlue;
-            return teamBlue >= 1;
-        }
-        return false;
+        return numgoals <= 1;
+      
     }
-    private void GetRoundWinner()
+    private GoalManager GetRoundWinner()
     {
-        Debug.Log(teamRd);
-        Debug.Log(teamBlue);
-        if (teamRd == 1)
+        for (int i = 0; i< goalsPost.Length;i++)
         {
-            goalPost.winsRed++;
+            if (goalsPost[i].goalInstance.activeSelf)
+            {
+                return goalsPost[i];
+            }
         }
-        else if (teamBlue == 1)
-        {
-            goalPost.wins++;
-        }     
+        return null;
     }
-    private void GetGameWinner()
+    private GoalManager GetGameWinner()
     {
-        if (goalPost.wins == numRoundsToWin)
+        for(int i = 0; i < goalsPost.Length; i++)
         {
-           
+            if (goalsPost[i].wins == numRoundsToWin)
+            {
+                return goalsPost[i];
+            }
         }
-        else if (goalPost.winsRed == numRoundsToWin)
-        {
-           
-        }
+        return null;
     }
-    //private string EndMessage()
-    //{
-    //}
+    private string EndMessage()
+    {
+        string message = "Draw";
+        if (roundWinner != null)
+            message = roundWinner.coloredgoalText + "Wins The Round!";
+
+        message += "\n\n\n\n\n";
+        for (int i = 0; i < goalsPost.Length; i++)
+        {
+            message += goalsPost[i].coloredgoalText + ": " + goalsPost[i].wins + "Wins\n";
+        }
+        if (gameWinner != null)
+            message = gameWinner.coloredgoalText + "WINS THE GAME!!";
+        return message;
+    }
     private void ResetAllPlayer()
     {
+        ball.transform.position = ballSpawnPoint.position;
+        ball.transform.rotation = ballSpawnPoint.rotation;
+        ball.SetActive(false);
+        ball.SetActive(true);
         for (int i = 0; i < players.Length; i++)
         {
            players[i].Reset();
         }
+        for(int g =0; g < goalsPost.Length; g++)
+        {
+            goalsPost[g].Reset();
+        }
     }
     private void EnablePlayerControl()
     {
+        ball.GetComponent<Rigidbody>().isKinematic = false;
         for (int i = 0; i < players.Length; i++)
         {
             players[i].EnableControl();
         }
+        for (int g =0; g< goalsPost.Length;g++)
+        {
+            goalsPost[g].EnableControl();
+        }
     }
     private void DisablePlayerControl()
     {
+        ball.GetComponent<Rigidbody>().isKinematic = true;
         for (int i = 0; i < players.Length; i++)
         {
             players[i].DisableControl();
+        }
+        for (int g= 0; g<goalsPost.Length; g++)
+        {
+            goalsPost[g].DisableControl();
         }
     }
 }
