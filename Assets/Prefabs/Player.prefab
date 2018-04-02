@@ -280,6 +280,7 @@ MonoBehaviour:
   minLaunchForce: 15
   maxLaunchForce: 30
   maxChargeTime: 0.75
+  speedThrow: {fileID: 0}
 --- !u!114 &114275022360315662
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -335,7 +336,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerNumber: 1
-  item: {fileID: 1273800602414376, guid: e18a6885796aebb4e9dd7464d5b7399a, type: 2}
   tempParent: {fileID: 1889442652904900}
   hand: {fileID: 4828934805323802}
 --- !u!114 &114797198649334714
@@ -462,7 +462,7 @@ ParticleSystem:
   moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 2
-  randomSeed: -1919578890
+  randomSeed: -1746308694
   InitialModule:
     serializedVersion: 3
     enabled: 1

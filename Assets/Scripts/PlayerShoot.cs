@@ -18,6 +18,7 @@ public class PlayerShoot : MonoBehaviour
     private float maxLaunchForce = 30f; 
     [SerializeField]       
     private float maxChargeTime = 0.75f;
+    
 
     private string fireButton;                
     private float currentLaunchForce;         
@@ -38,6 +39,7 @@ public class PlayerShoot : MonoBehaviour
         game = GameObject.FindGameObjectWithTag("Game").GetComponent<GameManager>();
         playerPickUp = this.gameObject.GetComponent<PlayerPickUp>();
         chargeSpeed = (maxLaunchForce - minLaunchForce) / maxChargeTime;
+        
     }
 	private void Update ()
     {
@@ -49,6 +51,7 @@ public class PlayerShoot : MonoBehaviour
             if (currentLaunchForce >= maxLaunchForce && !fired)
             {
                 currentLaunchForce = maxLaunchForce;
+                
                 Fire();
             }
             else if (Input.GetButtonDown(fireButton))
@@ -79,6 +82,7 @@ public class PlayerShoot : MonoBehaviour
     }
     private void Fire()
     {
+        
         fired = true;
         playerPickUp.IsCarrying = false;
         game.Ball.GetComponent<Rigidbody>().useGravity = true;
