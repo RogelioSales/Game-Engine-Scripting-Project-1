@@ -5,6 +5,8 @@ using UnityEngine;
 public class GoalPost : MonoBehaviour
 {
     public int goalNumber;
+    public GameObject particle1;
+    public GameObject particle2;
     [HideInInspector]
     public bool IsGoal
     {
@@ -22,6 +24,10 @@ public class GoalPost : MonoBehaviour
             Debug.Log("GOAALLL");
             this.gameObject.SetActive(false);
             isGoal = true;
+            particle1.gameObject.SetActive(true);
+            particle1.GetComponent<ParticleSystem>().Play();
+            particle2.gameObject.SetActive(true);
+            particle2.GetComponent<ParticleSystem>().Play();
         }
     }
     // Use this for initialization
@@ -29,6 +35,8 @@ public class GoalPost : MonoBehaviour
     {
         game = GameObject.FindGameObjectWithTag("Game").GetComponent<GameManager>();
         isGoal = false;
+        particle1.SetActive(false);
+        particle2.SetActive(false);
     }
 }
 

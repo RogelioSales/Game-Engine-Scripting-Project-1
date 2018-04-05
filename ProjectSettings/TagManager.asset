@@ -8,6 +8,7 @@ TagManager:
   - Pickable
   - Goals
   - Game
+  - Particle
   layers:
   - Default
   - TransparentFX

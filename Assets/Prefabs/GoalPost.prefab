@@ -355,6 +355,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   goalNumber: 1
+  particle1: {fileID: 1227731572117854, guid: 02dda3b52b25aa2489793c894d96bb0a, type: 2}
+  particle2: {fileID: 1052014023618272, guid: c3871b638095369419ac4b358fb44cee, type: 2}
   wins: 0
 --- !u!114 &114424976850146232
 MonoBehaviour:
